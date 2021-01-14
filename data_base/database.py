@@ -1,11 +1,12 @@
 """ This module generate the local data base and provide connection """
 
-#!/usr/bin/python3
+# !/usr/bin/python3
 # -*- coding: Utf-8 -*
 
 from Config import config
 import mysql.connector
 import db_p5.sql
+
 
 class Database
     """ This class generate the local data base and provide connection """
@@ -32,8 +33,6 @@ class Database
 
     def database_gen(self):
         """Generate the database schema"""
-        
+
         with open(db_p5, "r"):
             read_file = db_p5.read()
-            
-        

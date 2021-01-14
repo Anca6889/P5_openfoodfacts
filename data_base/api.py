@@ -1,6 +1,6 @@
 """ This module will import data from the Openfoodfacts API """
 
-#!/usr/bin/python3
+# !/usr/bin/python3
 # -*- coding: Utf-8 -*
 
 # import sys = Problème perso d'import à dégager par la suite.
@@ -9,6 +9,7 @@ sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
 from Config import config
 import requests
+
 
 class Api:
 
@@ -26,8 +27,8 @@ class Api:
 
         print(categories)
 
+
 if __name__ == '__main__':
     print(config.CATEGORIES)
     Api()
     print(Api.get_cat())
-    
