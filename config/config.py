@@ -9,3 +9,11 @@ CATEGORIES = ["pates-a-tartiner", "boissons", "condiments",
 
 # Maximal number of product by categorie
 P_MAX = 50
+
+# Mysql server configuration:
+HOST = "localhost"
+USER = "root"
+PASSWORD = "mu122238"
+DATABASE = "db_p5"
+
+
