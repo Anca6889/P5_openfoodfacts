@@ -9,6 +9,7 @@ sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
 from Config import config
 import requests
+import json
 
 
 class Api:
@@ -17,16 +18,15 @@ class Api:
     data base """
 
     def __init__(self):
-        self.categories = config.CATEGORIES
-        self.max_products = config.P_MAX
+        pass
 
     def get_cat():
+        
+        categories = requests.get(config.URL, params= config.PARAMS)
 
-        categories = requests.get(
-            "https://fr.openfoodfacts.org/category/boissons")
-
-        print(categories)
-
+        results = categories.json()
+        print(results)
+        print(categories.url)
 
 if __name__ == '__main__':
     print(config.CATEGORIES)
