@@ -59,7 +59,7 @@ class Database:
         finally:
             if self.connect:
                 self.disconnecting()
-                print("Déconnection...")
+                print("Déconnexion...")
 
 if __name__ == '__main__':
     db = Database()
