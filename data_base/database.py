@@ -19,29 +19,48 @@ class Database:
         self.user = config.USER
         self.password = config.PASSWORD
         self.database = config.DATABASE
+        self.connect = None
+        self.cursor = None
 
-    def connect(self):
+    def connecting(self):
         """Provide connection to MySQL Server"""
 
         self.connect = mysql.connector.connect(host=self.host,
                                 user=self.user,
                                 password=self.password,
                                 database=self.database)
-
-    def disconnect(self):
+        
+        self.cursor = self.connect.cursor()
+        return self.connect, self.cursor
+        
+    def disconnecting(self):
         """Disconnect connection to MySQL Server"""
 
         self.connect.close()
+        self.cursor.close()
 
     def database_gen(self):
         """Generate the database schema"""
 
-        self.connect()
-        with open("data_base/db_p5.sql", "r") as db_script:
-            read_file = db_script.read()
-            print(read_file)
+        self.connecting()
+
+        try:
+            with open("data_base/db_p5.sql", "r") as db_script:
+                file = db_script.read()
+                sql = file.split(";")
+                for s in sql:
+                    self.cursor.execute(s)
+                    self.connect.commit()
+                    print(s)
+
+        except mysql.connector.errors.ProgrammingError as error:
+            print("Erreur lors de la création de la DBB:", error)
         
+        finally:
+            if self.connect:
+                self.disconnecting()
+                print("Déconnection...")
 
 if __name__ == '__main__':
     db = Database()
-    print(db.database_gen())
+    db.database_gen()

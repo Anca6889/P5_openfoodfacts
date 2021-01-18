@@ -22,7 +22,7 @@ class Api:
 
     def get_cat():
         
-        categories = requests.get(config.URL, params= config.PARAMS)
+        categories = requests.get(config.URL, params= config.PARAMS_PIZZA)
 
         results = categories.json()
         print(results)

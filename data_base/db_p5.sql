@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `db_p5` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `db_p5` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `db_p5`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
@@ -50,6 +50,7 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` int NOT NULL AUTO_INCREMENT,
   `Category_id` int NOT NULL,
+  `brand` varchar(50) NOT NULL,
   `name` varchar(200) NOT NULL,
   `nutriscore_grade` char(1) NOT NULL,
   `store` varchar(200) NOT NULL,
@@ -105,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-13 17:31:20
+-- Dump completed on 2021-01-18 14:12:39
