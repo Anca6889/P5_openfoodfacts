@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `db_p5` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `db_p5` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `db_p5`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
@@ -48,16 +48,14 @@ DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `Category_id` int NOT NULL,
-  `brand` varchar(50) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `nutriscore_grade` char(1) NOT NULL,
-  `store` varchar(200) NOT NULL,
-  `url` varchar(1000) NOT NULL,
-  PRIMARY KEY (`id`,`Category_id`),
-  KEY `fk_Product_Category1_idx` (`Category_id`),
-  CONSTRAINT `fk_Product_Category1` FOREIGN KEY (`Category_id`) REFERENCES `category` (`id`)
+  `code` int NOT NULL,
+  `categories` varchar(2000) DEFAULT NULL,
+  `brands` varchar(500) DEFAULT NULL,
+  `product_name_fr` varchar(500) DEFAULT NULL,
+  `nutriscore_grade` char(1) DEFAULT NULL,
+  `stores` varchar(500) DEFAULT NULL,
+  `url` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -83,8 +81,8 @@ CREATE TABLE `substitution` (
   PRIMARY KEY (`Product_id`,`Substitute_Name`),
   KEY `fk_Product_has_Product_Product1_idx` (`Substitute_Name`),
   KEY `fk_Product_has_Product_Product_idx` (`Product_id`),
-  CONSTRAINT `fk_Product_has_Product_Product` FOREIGN KEY (`Product_id`) REFERENCES `product` (`id`),
-  CONSTRAINT `fk_Product_has_Product_Product1` FOREIGN KEY (`Substitute_Name`) REFERENCES `product` (`id`)
+  CONSTRAINT `fk_Product_has_Product_Product` FOREIGN KEY (`Product_id`) REFERENCES `product` (`code`),
+  CONSTRAINT `fk_Product_has_Product_Product1` FOREIGN KEY (`Substitute_Name`) REFERENCES `product` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,4 +104,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-18 14:12:39
+-- Dump completed on 2021-01-19 11:31:45

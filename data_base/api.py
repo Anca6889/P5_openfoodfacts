@@ -18,17 +18,17 @@ class Api:
     data base """
 
     def __init__(self):
-        pass
+        self.get_data()
+        self.results = []
 
-    def get_cat():
+    def get_data(self):
         
-        categories = requests.get(config.URL, params= config.PARAMS_PIZZA)
+        data_pizza = requests.get(config.URL, params= config.PARAMS_PIZZA)
 
-        results = categories.json()
-        print(results)
-        print(categories.url)
+        self.results = data_pizza.json()
+        print(self.results)
+        print(data_pizza.url)
 
 if __name__ == '__main__':
-    print(config.CATEGORIES)
     Api()
-    print(Api.get_cat())
+    
