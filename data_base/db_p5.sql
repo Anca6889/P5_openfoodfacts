@@ -77,12 +77,12 @@ DROP TABLE IF EXISTS `substitution`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `substitution` (
   `Product_id` int NOT NULL,
-  `Substitute_Name` int NOT NULL,
-  PRIMARY KEY (`Product_id`,`Substitute_Name`),
-  KEY `fk_Product_has_Product_Product1_idx` (`Substitute_Name`),
+  `Substitute_id` int NOT NULL,
+  PRIMARY KEY (`Product_id`,`Substitute_id`),
+  KEY `fk_Product_has_Product_Product1_idx` (`Substitute_id`),
   KEY `fk_Product_has_Product_Product_idx` (`Product_id`),
   CONSTRAINT `fk_Product_has_Product_Product` FOREIGN KEY (`Product_id`) REFERENCES `product` (`code`),
-  CONSTRAINT `fk_Product_has_Product_Product1` FOREIGN KEY (`Substitute_Name`) REFERENCES `product` (`code`)
+  CONSTRAINT `fk_Product_has_Product_Product1` FOREIGN KEY (`Substitute_id`) REFERENCES `product` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
