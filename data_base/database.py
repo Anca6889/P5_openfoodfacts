@@ -9,6 +9,7 @@ sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
 from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES
 from data_base.api import Api 
+from data_base.products import Products
 import mysql.connector
 import json
 
@@ -74,15 +75,19 @@ class Database:
 
     def insert_product(self, product): # on considère un objet product passé en argument
         self.connecting()
-        query = f"INSERT INTO product (code, categories, brands, product_name_f nutriscore_grade, stores, url)" f"VALUES ({product.code}, {product.categories}, {product.brands}, {product.product_name_f}, {product.nutriscore_grade}, {product.stores}, {product.url});"
+        
+        query = "INSERT INTO product (code, categories, brands, product_name_fr, nutriscore_grade, stores, url) VALUES ('%s','%s','%s','%s','%s','%s','%s')" % (product.code, product.categories, product.brands, product.product_name_fr, product.nutriscore_grade, product.stores, product.url)
         self.cursor.execute(query)
         self.connect.commit()
+
+    def insert_products(self, products):
+        for product in products:
+            self.insert_product(product)
 
 if __name__ == '__main__':
     db = Database()
     api = Api()
+    prod = Products()
     db.database_gen()
     db.insert_categories(CATEGORIES)
-    db.insert_product(api.products)
-    
-    
+    db.insert_products(prod)

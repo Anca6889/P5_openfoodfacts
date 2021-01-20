@@ -48,14 +48,15 @@ DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
-  `code` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(25) DEFAULT NULL,
   `categories` varchar(2000) DEFAULT NULL,
   `brands` varchar(500) DEFAULT NULL,
   `product_name_fr` varchar(500) DEFAULT NULL,
-  `nutriscore_grade` char(1) DEFAULT NULL,
+  `nutriscore_grade` varchar(10) DEFAULT NULL,
   `stores` varchar(500) DEFAULT NULL,
   `url` varchar(2000) DEFAULT NULL,
-  PRIMARY KEY (`code`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -78,11 +79,7 @@ DROP TABLE IF EXISTS `substitution`;
 CREATE TABLE `substitution` (
   `Product_id` int NOT NULL,
   `Substitute_id` int NOT NULL,
-  PRIMARY KEY (`Product_id`,`Substitute_id`),
-  KEY `fk_Product_has_Product_Product1_idx` (`Substitute_id`),
-  KEY `fk_Product_has_Product_Product_idx` (`Product_id`),
-  CONSTRAINT `fk_Product_has_Product_Product` FOREIGN KEY (`Product_id`) REFERENCES `product` (`code`),
-  CONSTRAINT `fk_Product_has_Product_Product1` FOREIGN KEY (`Substitute_id`) REFERENCES `product` (`code`)
+  PRIMARY KEY (`Product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

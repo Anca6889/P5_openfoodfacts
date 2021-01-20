@@ -28,7 +28,6 @@ class Api:
                         "page_size": P_MAX,
                         "json": 1,
                         "fields": "code,brands,product_name_fr,categories,stores,nutriscore_grade,url"
-                        
                         }
         self.products = []
         self.get_all_categories_datas()
@@ -56,7 +55,7 @@ class Api:
             for products in category["products"]:
                 self.products.append(products)
                 
-                
+
 if __name__ == '__main__':
     data = Api()
     print(data.products)
