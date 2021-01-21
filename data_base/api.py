@@ -58,7 +58,8 @@ class Api:
 
 if __name__ == '__main__':
     data = Api()
-    print(data.products)
+    for product in data.products:
+        print(product, '\n')
     
     
     

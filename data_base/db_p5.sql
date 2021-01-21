@@ -53,7 +53,7 @@ CREATE TABLE `product` (
   `categories` varchar(2000) DEFAULT NULL,
   `brands` varchar(500) DEFAULT NULL,
   `product_name_fr` varchar(500) DEFAULT NULL,
-  `nutriscore_grade` varchar(10) DEFAULT NULL,
+  `nutriscore_grade` char(1) DEFAULT NULL,
   `stores` varchar(500) DEFAULT NULL,
   `url` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`id`)

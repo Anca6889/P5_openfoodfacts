@@ -75,10 +75,15 @@ class Database:
 
     def insert_product(self, product): # on considère un objet product passé en argument
         self.connecting()
+            
+        query = "INSERT INTO product (code, categories, brands, product_name_fr, nutriscore_grade, stores, url) VALUES (%(code)s, %(categories)s, %(brands)s, %(product_name_fr)s, %(nutriscore_grade)s, %(stores)s, %(url)s)"
         
-        query = "INSERT INTO product (code, categories, brands, product_name_fr, nutriscore_grade, stores, url) VALUES ('%s','%s','%s','%s','%s','%s','%s')" % (product.code, product.categories, product.brands, product.product_name_fr, product.nutriscore_grade, product.stores, product.url)
-        self.cursor.execute(query)
-        self.connect.commit()
+        try:
+            self.cursor.execute(query, product)
+            self.connect.commit()
+
+        except KeyError:
+            print("Error: une ou plusieures clés sont inexistentes sur un produit ")
 
     def insert_products(self, products):
         for product in products:
@@ -90,4 +95,4 @@ if __name__ == '__main__':
     prod = Products()
     db.database_gen()
     db.insert_categories(CATEGORIES)
-    db.insert_products(prod)
+    db.insert_products(api.products)

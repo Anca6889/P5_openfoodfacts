@@ -15,7 +15,7 @@ CATEGORIES = [
                 ]
 
 # Maximal number of product by categorie
-P_MAX = 3
+P_MAX = 25
 
 # Mysql server configuration:
 HOST = "localhost"
