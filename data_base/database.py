@@ -7,11 +7,12 @@
 import sys
 sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
-from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES
+from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, P_MAX
 from data_base.api import Api 
 from data_base.products import Products
 import mysql.connector
 import json
+import time
 
 
 class Database:
@@ -21,9 +22,8 @@ class Database:
         
         self.connect = None
         self.cursor = None
-        self.connecting()
+        self.all_gen()
         
-
     def connecting(self):
         """Provide connection to MySQL Server"""
 
@@ -34,16 +34,20 @@ class Database:
                                                 database=DATABASE
                                                 )
         self.cursor = self.connect.cursor()
-        return self.connect, self.cursor
+        print("connexion au serveur MYSQL...")
+        time.sleep(1)
+        print("connexion établie")
 
     def disconnecting(self):
         """Disconnect connection to MySQL Server"""
 
         self.connect.close()
         self.cursor.close()
-        print("Déconnexion...")
+        print("Déconnexion du serveur MYSQL...")
+        time.sleep(1)
+        print("Déconnecté")
 
-    def database_gen(self):
+    def schema_gen(self):
         """Generate the database schema"""
 
         try:
@@ -53,20 +57,22 @@ class Database:
                 for instructions in sql:
                     self.cursor.execute(instructions)
                     self.connect.commit()
-                    print(instructions)
 
         except mysql.connector.errors.ProgrammingError as error:
             print("Erreur lors de la création de la DBB:", error)
         
-        finally:
-            if self.connect:
-                self.disconnecting()
 
     def insert_category(self, cat_name):
-        self.connecting()
+        
         query = "INSERT INTO category (name) VALUES ('%s')" % cat_name
-        self.cursor.execute(query)
-        self.connect.commit()
+
+        try:
+            self.cursor.execute(query)
+            self.connect.commit()
+            
+        except ValueError as err:
+            print("Error: {}".format(err))
+
 
     def insert_categories(self, categories):
         for category in categories:
@@ -74,7 +80,6 @@ class Database:
 
 
     def insert_product(self, product): # on considère un objet product passé en argument
-        self.connecting()
             
         query = "INSERT INTO product (code, categories, brands, product_name_fr, nutriscore_grade, stores, url) VALUES (%(code)s, %(categories)s, %(brands)s, %(product_name_fr)s, %(nutriscore_grade)s, %(stores)s, %(url)s)"
         
@@ -82,17 +87,26 @@ class Database:
             self.cursor.execute(query, product)
             self.connect.commit()
 
-        except KeyError:
-            print("Error: une ou plusieures clés sont inexistentes sur un produit ")
+        except KeyError as err:
+            print("Error: une ou plusieures clés sont inexistentes sur un produit: {}".format(err))
+
 
     def insert_products(self, products):
         for product in products:
             self.insert_product(product)
 
+    def all_gen(self):
+        self.connecting()
+        print("Création de la base de donnée...")
+        self.schema_gen()
+        print("Création des catégories de produits...")
+        self.insert_categories(CATEGORIES)
+        print("Envoi de la requête à Openfoodfacts...")
+        api = Api()
+        print("Import de", 5 * P_MAX, "produits en base de données locale")
+        time.sleep(1)
+        self.insert_products(api.products)
+        self.disconnecting()
+
 if __name__ == '__main__':
-    db = Database()
-    api = Api()
-    prod = Products()
-    db.database_gen()
-    db.insert_categories(CATEGORIES)
-    db.insert_products(api.products)
+    Database()

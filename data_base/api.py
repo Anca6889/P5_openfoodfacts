@@ -44,8 +44,8 @@ class Api:
             results = data.json()
             return results
         
-        except ValueError:
-            print(ValueError)
+        except ValueError as err:
+            print("Error: {}".format(err))
             
 
     def get_all_categories_datas(self):
