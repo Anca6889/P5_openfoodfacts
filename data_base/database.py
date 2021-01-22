@@ -7,11 +7,10 @@
 import sys
 sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
-from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, P_MAX
+from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, P_MAX, CAT_NUMBER 
 from data_base.api import Api 
 from data_base.products import Products
 import mysql.connector
-import json
 import time
 
 
@@ -63,8 +62,9 @@ class Database:
         
 
     def insert_category(self, cat_name):
-        
-        query = "INSERT INTO category (name) VALUES ('%s')" % cat_name
+        """Insert one category from CONSTANT"""
+
+        query = "INSERT INTO category (category_name) VALUES ('%s')" % cat_name
 
         try:
             self.cursor.execute(query)
@@ -75,13 +75,16 @@ class Database:
 
 
     def insert_categories(self, categories):
+        """" Insert all categories from CONSTANT """
+
         for category in categories:
             self.insert_category(category)
 
 
-    def insert_product(self, product): # on considère un objet product passé en argument
+    def insert_product(self, product): 
+        """" Insert one proudct from API """
             
-        query = "INSERT INTO product (code, categories, brands, product_name_fr, nutriscore_grade, stores, url) VALUES (%(code)s, %(categories)s, %(brands)s, %(product_name_fr)s, %(nutriscore_grade)s, %(stores)s, %(url)s)"
+        query = "INSERT INTO product (product_code, product_categories, product_brands, product_name_fr, product_nutriscore_grade, product_stores, product_url) VALUES (%(code)s, %(categories)s, %(brands)s, %(product_name_fr)s, %(nutriscore_grade)s, %(stores)s, %(url)s)"
         
         try:
             self.cursor.execute(query, product)
@@ -92,10 +95,26 @@ class Database:
 
 
     def insert_products(self, products):
+        """ Insert all products from API"""
+
         for product in products:
             self.insert_product(product)
 
+    def join_categories(self):
+        """ Join the product table with the category table """
+
+        query = ("SELECT category_id FROM category INNER JOIN Product ON Category.category_id = product.product_categories")
+
+        try:
+            self.cursor.execute(query)
+            self.connect.commit()
+
+        except TypeError as err:
+            print("Error: {}".format(err))
+
     def all_gen(self):
+        """ Run all the necessary methods to generate local data base"""
+
         self.connecting()
         print("Création de la base de donnée...")
         self.schema_gen()
@@ -103,9 +122,10 @@ class Database:
         self.insert_categories(CATEGORIES)
         print("Envoi de la requête à Openfoodfacts...")
         api = Api()
-        print("Import de", 5 * P_MAX, "produits en base de données locale")
+        print("Import de", CAT_NUMBER * P_MAX, "produits en base de données locale")
         time.sleep(1)
         self.insert_products(api.products)
+        self.join_categories()
         self.disconnecting()
 
 if __name__ == '__main__':

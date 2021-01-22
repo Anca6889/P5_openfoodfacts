@@ -1,0 +1,1 @@
+py -m flake8 --exclude venv

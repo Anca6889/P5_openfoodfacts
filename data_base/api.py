@@ -9,7 +9,6 @@ sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
 from Config.config import CATEGORIES, P_MAX, URL
 import requests
-import json
 
 class Api:
 

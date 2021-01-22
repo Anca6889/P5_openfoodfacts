@@ -14,6 +14,14 @@ CATEGORIES = [
                 "pizzas"
                 ]
 
+MAIN_MENU = {
+                1: "Trouvez un substitut à un produit",
+                2: "Afficher les substituts enregistrés",
+                3: "Réinitialiser la base de données",
+                4: "Quitter le programme"
+                }
+# Number of categories
+CAT_NUMBER = 5
 # Maximal number of product by categorie
 P_MAX = 25
 

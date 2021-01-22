@@ -1,7 +1,13 @@
+""" This is only a testing module what will be deleted"""
+
+# !/usr/bin/python3
+# -*- coding: Utf-8 -*
+
 from data_base.database import Database
 import mysql.connector
 
 class Test:
+    """this is only a testing class what will be deleted""""
 
     def __init__(self):
         

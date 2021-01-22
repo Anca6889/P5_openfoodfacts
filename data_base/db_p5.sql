@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
-  PRIMARY KEY (`id`)
+  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(200) NOT NULL,
+  PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -48,15 +48,15 @@ DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `code` varchar(25) DEFAULT NULL,
-  `categories` varchar(2000) DEFAULT NULL,
-  `brands` varchar(500) DEFAULT NULL,
+  `product_id` int NOT NULL AUTO_INCREMENT,
+  `product_code` varchar(25) DEFAULT NULL,
+  `product_categories` varchar(2000) DEFAULT NULL,
+  `product_brands` varchar(500) DEFAULT NULL,
   `product_name_fr` varchar(500) DEFAULT NULL,
-  `nutriscore_grade` char(1) DEFAULT NULL,
-  `stores` varchar(500) DEFAULT NULL,
-  `url` varchar(2000) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `product_nutriscore_grade` char(1) DEFAULT NULL,
+  `product_stores` varchar(500) DEFAULT NULL,
+  `product_url` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
