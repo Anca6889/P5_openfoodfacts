@@ -7,7 +7,7 @@
 import sys
 sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
-from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, P_MAX, CAT_NUMBER
+from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, PAGE_SIZE, CAT_NUMBER
 from data_base.api import Api 
 from data_base.product import Products
 import mysql.connector
@@ -52,16 +52,15 @@ class Database:
 
         try:
             with open("data_base/db_p5.sql", "r") as db_script:
-                file = db_script.read()
-                sql = file.split(";")
+                file = db_script.read() # read the data base script
+                sql = file.split(";") # split all the instructions of the script
                 for instructions in sql:
-                    self.cursor.execute(instructions)
-                    self.connect.commit()
+                    self.cursor.execute(instructions) # execute each instruction
+                    self.connect.commit() # save 
 
         except mysql.connector.errors.ProgrammingError as error:
             print("Erreur lors de la création de la DBB:", error)
         
-
     def insert_category(self, cat_name):
         """Insert one category from CONSTANT"""
 
@@ -74,20 +73,20 @@ class Database:
         except ValueError as err:
             print("Error: {}".format(err))
 
-
     def insert_categories(self, categories):
         """" Insert all categories from CONSTANT """
 
         for category in categories:
             self.insert_category(category)
 
-    def get_categories_id_for_products(self):
+    def download_products(self):
+        """ this method will download all the products from the API """
 
         self.cursor.execute("SELECT category_id, category_name FROM category")
-        for cat_key, value in self.cursor.fetchall():    
+        for cat_key, value in self.cursor.fetchall(): # catch the contain of the table category in the data base.   
             api_request = Api()
             p = Products()
-            results = api_request.get_data_from_category(value)
+            results = api_request.get_data_from_category(value) # we use the categories names (value) to request the API.
             for line in results["products"]:
                 save = True
                 if line.get('product_name_fr') == None:
@@ -110,42 +109,29 @@ class Database:
                     save = False
                 else:
                     p.url = line.get('url')
-
-                p.category_id = cat_key
+                # all the below chain of "if" and "else" remove the products with empty fields.
+                p.category_id = cat_key # catch the category id number.
                 if save:
-                    self.products_list.append({"product_name_fr": p.product_name_fr, "nutriscore_grade": p.nutriscore_grade, "brands": p.brands, "stores": p.stores, "url": p.url, "category_id": p.category_id})
-                    
+                    self.products_list.append({"product_name_fr": p.product_name_fr, "nutriscore_grade": p.nutriscore_grade, "brands": p.brands, "stores": p.stores, "url": p.url, "category_id": p.category_id}) # create a list of dictionaries of all the products
 
     def insert_product(self, product): 
-        """" Insert one proudct from API """
+        """" Insert one product from API """
             
         query = "INSERT INTO product (product_name_fr, product_nutriscore_grade, product_brands, product_stores, product_url,category_id) VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s, %(stores)s, %(url)s, %(category_id)s)"
-        
+
         try:
             self.cursor.execute(query, product)
             self.connect.commit()
 
         except KeyError as err:
-            print("Error: une ou plusieures clés sont inexistentes sur un produit: {}".format(err))
-
+            print(  "Error: une ou plusieures clés sont inexistentes"
+                    "sur un produit: {}".format(err))
 
     def insert_products(self, products):
         """ Insert all products from API"""
 
         for product in products:
             self.insert_product(product)
-
-    # def join_categories(self):
-    #     """ Join the product table with the category table """
-
-    #     query = ("SELECT category_id FROM category INNER JOIN Product ON Category.category_id = product.product_categories")
-
-    #     try:
-    #         self.cursor.execute(query)
-    #         self.connect.commit()
-
-    #     except TypeError as err:
-    #         print("Error: {}".format(err))
 
     def all_gen(self):
         """ Run all the necessary methods to generate local data base"""
@@ -156,12 +142,14 @@ class Database:
         print("Création des catégories de produits...")
         self.insert_categories(CATEGORIES)
         print("Envoi de la requête à Openfoodfacts...")
-        print("Import de", CAT_NUMBER * P_MAX, "produits en base de données locale")
+        print("Import de", CAT_NUMBER * PAGE_SIZE, "produits en base de données")
+                    )
         time.sleep(1)
-        self.get_categories_id_for_products()
+        self.download_products()
         self.insert_products(self.products_list)
-        # self.join_categories()
+        print("Import réussi avec succès !")
         self.disconnecting()
+
 
 if __name__ == '__main__':
     Database()

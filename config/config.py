@@ -23,7 +23,7 @@ MAIN_MENU = {
 # Number of categories
 CAT_NUMBER = 5
 # Maximal number of product by categorie
-P_MAX = 25
+PAGE_SIZE = 50
 
 # Mysql server configuration:
 HOST = "localhost"

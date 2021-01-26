@@ -7,7 +7,7 @@
 import sys
 sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
-from Config.config import CATEGORIES, P_MAX, URL
+from Config.config import CATEGORIES, PAGE_SIZE, URL
 import requests
 
 class Api:
@@ -24,18 +24,17 @@ class Api:
                         "tag_contains_0": "contains",
                         "tag_0": None,
                         "sort_by": "unique_scans_n",
-                        "page_size": P_MAX,
+                        "page_size": PAGE_SIZE,
                         "json": 1,
-                        "fields": "code,brands,product_name_fr,categories,stores,nutriscore_grade,url"
+                        "fields": "brands,product_name_fr,stores,nutriscore_grade,url"
                         }
         self.products = []
-        # self.get_all_categories_datas()
         
-
     def set_payload_from_category(self, category):
         """ This method will turn the "tag_0" value in the payload to the name of a categorie """
 
-        self.payload["tag_0"] = category
+        self.payload["tag_0"] = category 
+        # categories are available and settable in the config file.
         return self.payload
 
     def get_data_from_category(self, category):
@@ -48,21 +47,7 @@ class Api:
         
         except ValueError as err:
             print("Error: {}".format(err))
-            
 
-    # def get_all_categories_datas(self):
-    #     """ This method will send all the request to the API """
-        
-    #     for category in CATEGORIES:
-    #         category = self.get_data_from_category(category)
-    #         for products in category["products"]:
-    #             self.products.append(products)
-                
 
 if __name__ == '__main__':
     data = Api()
-    for product in data.products:
-        print(product, '\n')
-    
-    
-    
