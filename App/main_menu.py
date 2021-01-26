@@ -31,10 +31,10 @@ class MainMenu:
         self.choice = int(input("\nEntrez le chiffre correspondant à votre choix puis pressez sur ENTER : "))
         return self.choice
 
-    def dispatch(self):
-        """ Generate the class relative of choice """
+    # def dispatch(self):
+    #     """ Generate the class relative of choice """
         
-        if self.choice == 1: 
+    #     if self.choice == 1
             
 
 if __name__ == '__main__':

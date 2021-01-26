@@ -7,7 +7,7 @@ from data_base.database import Database
 import mysql.connector
 
 class Test:
-    """this is only a testing class what will be deleted""""
+    """ this is only a testing class what will be deleted """
 
     def __init__(self):
         
@@ -17,7 +17,7 @@ class Test:
     def main_menu(self):
 
         self.db.connecting()
-        self.db.cursor.execute("SELECT id, name FROM category")
+        self.db.cursor.execute("SELECT category_id, category_name FROM category")
         for ligne in self.db.cursor.fetchall():
             print(ligne)
 

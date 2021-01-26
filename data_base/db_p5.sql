@@ -49,6 +49,7 @@ DROP TABLE IF EXISTS `product`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
   `product_id` int NOT NULL AUTO_INCREMENT,
+  `category_id` int NOT NULL,
   `product_code` varchar(25) DEFAULT NULL,
   `product_categories` varchar(2000) DEFAULT NULL,
   `product_brands` varchar(500) DEFAULT NULL,
