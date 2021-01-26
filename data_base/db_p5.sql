@@ -50,8 +50,6 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `product_id` int NOT NULL AUTO_INCREMENT,
   `category_id` int NOT NULL,
-  `product_code` varchar(25) DEFAULT NULL,
-  `product_categories` varchar(2000) DEFAULT NULL,
   `product_brands` varchar(500) DEFAULT NULL,
   `product_name_fr` varchar(500) DEFAULT NULL,
   `product_nutriscore_grade` char(1) DEFAULT NULL,

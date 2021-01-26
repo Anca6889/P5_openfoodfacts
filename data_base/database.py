@@ -113,16 +113,16 @@ class Database:
 
                 p.category_id = cat_key
                 if save:
-                    self.products_list.append([p.product_name_fr, p.nutriscore_grade, p.brands, p.stores, p.url, p.category_id])
-                    print(self.products_list) 
+                    self.products_list.append({"product_name_fr": p.product_name_fr, "nutriscore_grade": p.nutriscore_grade, "brands": p.brands, "stores": p.stores, "url": p.url, "category_id": p.category_id})
+                    
 
     def insert_product(self, product): 
         """" Insert one proudct from API """
             
-        query = f"INSERT INTO product (product_name_fr,product_nutriscore_grade, product_brands, product_stores, product_url,category_id) VALUES ({product[0]}, {product[1]}, {product[2]}, {product[3]}, {product[4]}, {product[5]})"
+        query = "INSERT INTO product (product_name_fr, product_nutriscore_grade, product_brands, product_stores, product_url,category_id) VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s, %(stores)s, %(url)s, %(category_id)s)"
         
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, product)
             self.connect.commit()
 
         except KeyError as err:
