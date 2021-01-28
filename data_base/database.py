@@ -20,7 +20,6 @@ class Database:
         self.connect = None
         self.cursor = None
         self.products_list = []
-        # self.all_gen()
 
     def connecting(self):
         """Provide connection to MySQL Server"""
@@ -111,6 +110,10 @@ class Database:
                     save = False
                 else:
                     p.url = line.get('url')
+                if line.get('categories') is None:
+                    save = False
+                else:
+                    p.categories = line.get('categories')
                 #  all the below chain of "if" and "else" remove the
                 #  products with empty fields.
                 p.category_id = cat_key  # catch the category id number.
@@ -121,6 +124,7 @@ class Database:
                             "brands": p.brands,
                             "stores": p.stores,
                             "url": p.url,
+                            "categories": p.categories,
                             "category_id": p.category_id
                          })
 
@@ -129,7 +133,7 @@ class Database:
     def insert_product(self, product):
         """" Insert one product from API """
 
-        query = "INSERT INTO product (product_name_fr, product_nutriscore_grade, product_brands, product_stores, product_url,category_id) VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s, %(stores)s, %(url)s, %(category_id)s)"
+        query = "INSERT INTO product (product_name_fr, product_nutriscore_grade, product_brands, product_stores, product_url, product_categories, category_id) VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s, %(stores)s, %(url)s, %(categories)s, %(category_id)s)"
 
         try:
             self.cursor.execute(query, product)

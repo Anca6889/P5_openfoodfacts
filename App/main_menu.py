@@ -8,6 +8,7 @@ import sys
 sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
 from Config.config import MAIN_MENU
+from App.select_products import SelectCategory
 
 
 class MainMenu:
@@ -33,11 +34,13 @@ class MainMenu:
             "\nEntrez le chiffre correspondant à votre choix puis"
             "pressez sur ENTER : "))
         return self.choice
+        self.dispatch()
 
-    # def dispatch(self):
-    #     """ Generate the class relative of choice """
+    def dispatch(self):
+        """ Generate the class relative of choice """
 
-    #     if self.choice == 1
+        if self.choice == 1:
+            SelectCategory()
 
 
 if __name__ == '__main__':

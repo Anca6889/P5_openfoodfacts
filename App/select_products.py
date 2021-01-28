@@ -34,10 +34,8 @@ class SelectCategory:
 
         self.db.cursor.execute(
             "SELECT product_name_fr FROM product WHERE category_id=%(category_id)s", {'category_id': cat_id})
-        for line in self.db.cursor.fetchall():
-            for subline in enumerate(line):
-                print(subline)
-                
+        for line in enumerate(self.db.cursor.fetchall()):
+            print(line[0], line[1])
 
 
 if __name__ == '__main__':

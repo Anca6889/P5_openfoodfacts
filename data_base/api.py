@@ -26,12 +26,12 @@ class Api:
             "sort_by": "unique_scans_n",
             "page_size": PAGE_SIZE,
             "json": 1,
-            "fields": "brands,product_name_fr,stores,nutriscore_grade,url"
+            "fields": "categories,brands,product_name_fr,stores,nutriscore_grade,url"
         }
         self.products = []
 
     def set_payload_from_category(self, category):
-        """ This method will turn the "tag_0" value in the payload to the 
+        """ This method will turn the "tag_0" value in the payload to the
             name of a categorie """
 
         self.payload["tag_0"] = category

@@ -21,6 +21,7 @@ class Products:
         self.nutriscore_grade = ""
         self.stores = ""
         self.url = ""
+        self.categories = ""
 
 
 if __name__ == '__main__':
