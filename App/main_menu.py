@@ -8,7 +8,8 @@ import sys
 sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 
 from Config.config import MAIN_MENU
-from App.select_products import SelectCategory
+from App.select_products import SelectProducts
+from App.reset_db import Reset
 
 
 class MainMenu:
@@ -24,8 +25,8 @@ class MainMenu:
 
         print('\n')
         for key, val in self.option.items():
-            print(key, val, '\n')  # make it more confortable to read
-        self.get_choice()  # launch automaticly the choice method after display
+            print(key, val, '\n')
+        self.get_choice()  
 
     def get_choice(self):
         """ Record the user choice """
@@ -33,14 +34,17 @@ class MainMenu:
         self.choice = int(input(
             "\nEntrez le chiffre correspondant à votre choix puis"
             "pressez sur ENTER : "))
-        return self.choice
+        
         self.dispatch()
 
     def dispatch(self):
         """ Generate the class relative of choice """
 
         if self.choice == 1:
-            SelectCategory()
+            SelectProducts()
+
+        if self.choice == 3:
+            Reset()
 
 
 if __name__ == '__main__':

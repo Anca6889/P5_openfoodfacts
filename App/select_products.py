@@ -9,19 +9,20 @@ sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 from data_base.database import Database
 
 
-class SelectCategory:
+class SelectProducts:
     """ This class will display the category choice """
 
     def __init__(self):
 
         self.db = Database()
         self.show_categories()
-        self.cat_choice = None
-
+        
+        
     def show_categories(self):
 
         self.db.connecting()
-        self.db.cursor.execute("SELECT category_id, category_name FROM category")
+        self.db.cursor.execute("SELECT category_id, category_name \
+            FROM category")
         for line in self.db.cursor.fetchall():
             cat_id = line[0] 
             cat_name = line[1]
@@ -32,11 +33,17 @@ class SelectCategory:
 
     def show_products(self, cat_id):
 
+        products = {}
         self.db.cursor.execute(
-            "SELECT product_name_fr FROM product WHERE category_id=%(category_id)s", {'category_id': cat_id})
+            "SELECT product_name_fr, product_brands, product_nutriscore_grade \
+                FROM product \
+                    WHERE \
+                        category_id=%(category_id)s", {'category_id': cat_id})
         for line in enumerate(self.db.cursor.fetchall()):
-            print(line[0], line[1])
+            products[line[0]] = line[1]
+        for key, product_info in products.items():
+            print(key, product_info)
 
 
 if __name__ == '__main__':
-    SelectCategory()
+    SelectProducts()

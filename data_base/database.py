@@ -9,7 +9,8 @@ from data_base.api import Api
 import time
 import mysql.connector
 from data_base.product import Products
-from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, PAGE_SIZE, CAT_NUMBER
+from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, \
+    PAGE_SIZE, CAT_NUMBER
 
 
 class Database:
@@ -55,7 +56,7 @@ class Database:
                 for instructions in sql:
                     # execute each instruction
                     self.cursor.execute(instructions)
-                    self.connect.commit()  # save
+                    self.connect.commit()  
 
         except mysql.connector.errors.ProgrammingError as error:
             print("Erreur lors de la création de la DBB:", error)
@@ -133,11 +134,15 @@ class Database:
     def insert_product(self, product):
         """" Insert one product from API """
 
-        query = "INSERT INTO product (product_name_fr, product_nutriscore_grade, product_brands, product_stores, product_url, product_categories, category_id) VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s, %(stores)s, %(url)s, %(categories)s, %(category_id)s)"
+        query = """ INSERT INTO product (product_name_fr,
+        product_nutriscore_grade, product_brands, product_stores, product_url, 
+        product_categories, category_id) 
+        VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s,
+        %(stores)s, %(url)s, %(categories)s, %(category_id)s) """
 
         try:
             self.cursor.execute(query, product)
-            self.connect.commit()
+            self.connect.commit() 
 
         except KeyError as err:
             print("Error: une ou plusieures clés sont inexistentes"
@@ -148,6 +153,27 @@ class Database:
 
         for product in products:
             self.insert_product(product)
+
+    def get_subsitute(self, product):
+        """ This method will find out better products based on nutriscore """
+
+        self.connecting()
+        sub_list = []
+        query = """ SELECT product_id, category_id FROM product
+        INNER JOIN substitution
+        ON product.product_id = subsitution.product_id
+        AND product.category_id = substition.product_id
+        WHERE product_nutriscore_grade < product
+        AND product_category.id = """
+
+        try:
+            self.cursor.execute(query)
+            for line in self.cursor:
+                sub_list.append(line)
+                print(sub_list)
+
+        except TypeError as err:
+            print("Error: {}".format(err))
 
     def all_gen(self):
         """ Run all the necessary methods to generate local data base"""

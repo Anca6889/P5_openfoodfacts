@@ -51,10 +51,10 @@ CREATE TABLE `product` (
   `product_id` int NOT NULL AUTO_INCREMENT,
   `category_id` int NOT NULL,
   `product_categories` varchar(2000) DEFAULT NULL,
-  `product_brands` varchar(500) DEFAULT NULL,
-  `product_name_fr` varchar(500) DEFAULT NULL,
+  `product_brands` varchar(200) DEFAULT NULL,
+  `product_name_fr` varchar(200) DEFAULT NULL,
   `product_nutriscore_grade` char(1) DEFAULT NULL,
-  `product_stores` varchar(500) DEFAULT NULL,
+  `product_stores` varchar(1000) DEFAULT NULL,
   `product_url` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -77,9 +77,11 @@ DROP TABLE IF EXISTS `substitution`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `substitution` (
-  `Product_id` int NOT NULL,
-  `Substitute_id` int NOT NULL,
-  PRIMARY KEY (`Product_id`)
+  `product_id` int NOT NULL,
+  `substitute_id` int NOT NULL,
+  FOREIGN KEY (product_id) REFERENCES product(product_id),
+  FOREIGN KEY (substitute_id) REFERENCES product(product_id),
+  PRIMARY KEY (product_id, substitute_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
