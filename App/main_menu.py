@@ -10,6 +10,7 @@ sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 from Config.config import MAIN_MENU
 from App.select_products import SelectProducts
 from App.reset_db import Reset
+import time
 
 
 class MainMenu:
@@ -23,7 +24,7 @@ class MainMenu:
     def display(self):
         """ Display the main menu """
 
-        print('\n')
+        print('\n Bienvenue dans OFF substitutes \n')
         for key, val in self.option.items():
             print(key, val, '\n')
         self.get_choice()  
@@ -33,18 +34,20 @@ class MainMenu:
 
         self.choice = int(input(
             "\nEntrez le chiffre correspondant à votre choix puis"
-            "pressez sur ENTER : "))
-        
-        self.dispatch()
-
-    def dispatch(self):
-        """ Generate the class relative of choice """
+            " pressez sur ENTER : "))
 
         if self.choice == 1:
             SelectProducts()
 
-        if self.choice == 3:
+        elif self.choice == 3:
             Reset()
+
+        else:
+            print(
+                "Le choix que vous avez entré n'existe pas \n"
+                "veuillez effectuer un choix valide dans 3...2...1... \n")
+            time.sleep(5)    
+            self.display()
 
 
 if __name__ == '__main__':

@@ -4,9 +4,11 @@
 # -*- coding: Utf-8 -*
 
 # import sys = Problème perso d'import à dégager par la suite.
+from data_base.product import Products
 import sys
 sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 from data_base.database import Database
+import time
 
 
 class SelectProducts:
@@ -16,34 +18,73 @@ class SelectProducts:
 
         self.db = Database()
         self.show_categories()
-        
-        
+
     def show_categories(self):
 
         self.db.connecting()
+        print("\n veuillez choisir une catégorie de produit \n")
         self.db.cursor.execute("SELECT category_id, category_name \
             FROM category")
+        cat_numbers = []
         for line in self.db.cursor.fetchall():
-            cat_id = line[0] 
+            cat_id = line[0]
             cat_name = line[1]
+            cat_numbers.append(line[0])
             print(cat_id, cat_name)
-        cat_choice = input(
-            "\n Entrer le chiffre correspondant à la catégéorie:")
-        self.show_products(cat_choice)
+        
+        try:
+            cat_choice = int(input(
+                "\n Entrer le chiffre correspondant à la catégéorie: \n"))
+            if cat_choice in cat_numbers:
+                self.show_products(cat_choice)
+            else:
+                print("Choix NON VALIDE, vous allez être redirigé vers la "
+                      "selection de produit dans 3...2...1...")
+            time.sleep(3)
+            self.show_categories()
+
+        except ValueError:
+            print("Choix NON VALIDE, vous allez être redirigé vers la "
+                  "selection de produit dans 3...2...1...")
+            time.sleep(3)
+            self.show_categories()
 
     def show_products(self, cat_id):
 
-        products = {}
+        product_list = []
         self.db.cursor.execute(
-            "SELECT product_name_fr, product_brands, product_nutriscore_grade \
+            "SELECT product_id, name_fr, brands,\
+                nutriscore_grade, category_id \
                 FROM product \
                     WHERE \
                         category_id=%(category_id)s", {'category_id': cat_id})
-        for line in enumerate(self.db.cursor.fetchall()):
-            products[line[0]] = line[1]
-        for key, product_info in products.items():
-            print(key, product_info)
+        for line in (self.db.cursor.fetchall()):
+            print(line[0], "Nom du produit:", line[1], "\n",
+                  "   Marque:", line[2], "\n", "   Nutriscore:", line[3], "\n"
+                  " Catégorie:", line[4])
+            product_list.append(line)
+        prod_key = int(input(
+            "\n Entrer le numéro correspondant au produit"
+            " que vous voulez remplacer:"))
+        prod_choice = product_list[prod_key-1]
+        print(prod_choice)
+        print("Confirmer vous ce choix ?")
+        confirm = input("Tapez OUI ou NON : ")
+        if confirm == "OUI":
+            self.show_substitute(prod_choice)
+        elif confirm == "NON":
+            print("Veuillez choisir à nouveau un produit dans 3...2...1...")
+            time.sleep(3)
+            self.show_categories()  
+        else:
+            print("Choix NON VALIDE, vous allez être redirigé vers la"
+            "selection de produit dans 3...2...1...")
+            time.sleep(3)
+            self.show_categories()
 
+    def show_substitute(self, prod_choice):
+
+        self.db.get_subsitute(prod_choice)
 
 if __name__ == '__main__':
     SelectProducts()

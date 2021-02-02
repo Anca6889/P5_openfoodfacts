@@ -134,9 +134,9 @@ class Database:
     def insert_product(self, product):
         """" Insert one product from API """
 
-        query = """ INSERT INTO product (product_name_fr,
-        product_nutriscore_grade, product_brands, product_stores, product_url, 
-        product_categories, category_id) 
+        query = """ INSERT INTO product (name_fr,
+        nutriscore_grade, brands, stores, url, 
+        categories, category_id) 
         VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s,
         %(stores)s, %(url)s, %(categories)s, %(category_id)s) """
 
@@ -159,12 +159,12 @@ class Database:
 
         self.connecting()
         sub_list = []
-        query = """ SELECT product_id, category_id FROM product
+        query = """ SELECT product.product_id, product.category_id,
+        product.nutriscore_grade FROM product
         INNER JOIN substitution
         ON product.product_id = subsitution.product_id
-        AND product.category_id = substition.product_id
-        WHERE product_nutriscore_grade < product
-        AND product_category.id = """
+        WHERE product.nutriscore_grade < '{product[3]}'
+        AND product.category_id = '{product[4]}' """
 
         try:
             self.cursor.execute(query)
