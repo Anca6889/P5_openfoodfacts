@@ -4,10 +4,6 @@ usable object """
 # !/usr/bin/python3
 # -*- coding: Utf-8 -*
 
-# import sys = Problème perso d'import à dégager par la suite.
-import sys
-sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
-
 
 class Products:
     """ this class create an usable object for insert the products in the

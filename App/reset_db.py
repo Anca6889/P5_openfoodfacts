@@ -2,9 +2,6 @@
 
 # !/usr/bin/python3
 # -*- coding: Utf-8 -*
-import sys
-sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
-# import sys = Problème perso d'import à dégager par la suite.
 
 from data_base.database import Database
 

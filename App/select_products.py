@@ -3,9 +3,6 @@
 # !/usr/bin/python3
 # -*- coding: Utf-8 -*
 
-# import sys = Problème perso d'import à dégager par la suite.
-import sys
-sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
 from data_base.database import Database
 import time
 
@@ -50,6 +47,7 @@ class SelectProducts:
             nutriscore_grade, category_id \
             FROM product \
             WHERE category_id=%(category_id)s", {'category_id': cat_id})
+
         for line in (self.db.cursor.fetchall()):
             print(line[0], " Nom du produit:", line[1], "\n",
                   "   Marque:", line[2], "\n", "   Nutriscore:", line[3], "\n",
@@ -59,34 +57,98 @@ class SelectProducts:
         try:
 
             prod_exist = False
-            while prod_exist == False:
+            while prod_exist is False:
                 prod_choice = int(input(
                     "\n Entrer le numéro correspondant au produit"
                     " que vous voulez remplacer: "))
                 for product in product_list:
                     if prod_choice == product[0]:
                         prod_exist = True
-                        print(product)
+                        print("\n Vous avez sélectionné: \n\n", product[0],
+                              " Nom du produit:", product[1], "\n",
+                              "   Marque:", product[2], "\n",
+                              "   Nutriscore:", product[3], "\n",
+                              "    Catégorie:", product[4], "\n")
                         prod_save = product
-                if prod_exist == False:
+                if prod_exist is False:
                     print("Le numéro entré n'est pas présent dans la liste"
                           " des produits")
 
             print("Confirmer vous ce choix ?")
-            confirm = input("Tapez OUI pour confirmer sinon tapez ce que vous"
-                            " voulez pour revenir en arrière : ")
+            confirm = input("Entrez OUI pour confirmer sinon entrez n'importe"
+                            " quoi pour revenir en arrière : ")
             if confirm == "OUI":
                 self.show_substitute(prod_save)
 
             else:
                 self.come_back()
 
-        except IndexError:
-            self.come_back()
+        except ValueError:
+            print("Vous n'avez pas entré un numéro. \n"
+                  "Veuillez réesayer dans 3...2...1... ")
+            time.sleep(3)
+            self.show_products(cat_id)
 
-    def show_substitute(self, prod_choice):
+    def show_substitute(self, product):
 
-        self.db.get_subsitute(prod_choice)
+        sub_list = []
+        self.db.cursor.execute(
+              "SELECT product_name_fr, brands, nutriscore_grade, stores,\
+                url, product_id \
+                FROM product \
+                WHERE nutriscore_grade<%(nutriscore_grade)s \
+                AND category_id=%(category_id)s",
+              {'nutriscore_grade': product[3], 'category_id': product[4]}
+              )
+        print("\n")
+        for line in self.db.cursor.fetchall():
+            print(
+                    "Substitut potentiel à:", product[1], product[2], "\n",
+                    "Nom du produit:", line[0], "\n",
+                    "Marque:", line[1], "\n", "Nutriscore:", line[2], "\n",
+                    "Magasins:", line[3], "\n", "Url:", line[4], "\n",
+                    "identifiant produit:", line[5], "\n"
+                    )
+            sub_list.append(line)
+
+            try:
+
+                sub_exist = False
+                while sub_exist is False:
+                    sub_choice = int(input(
+                        "\n Entrer le numéro (identifiant produit)"
+                        " correspondant au produit"
+                        " que vous voulez remplacer: "))
+                    for sub in sub_list:
+                        if sub_choice == sub[5]:
+                            sub_exist = True
+                            print("\n Vous avez sélectionné: \n\n",
+                                  "Nom du produit:", sub[0], "\n",
+                                  "Marque:", sub[1], "\n", "Nutriscore:",
+                                  sub[2], "\n",
+                                  "Magasins:", sub[3], "\n", "Url:",
+                                  sub[4], "\n",
+                                  "identifiant produit:", sub[5], "\n")
+                            sub_save = sub
+                    if sub_exist is False:
+                        print("Le numéro entré n'est pas présent dans la liste"
+                              " des produits")
+
+                print("Confirmer vous ce choix ?")
+                confirm = input("Entrez OUI pour confirmer sinon entrez"
+                                " n'importe quoi pour revenir en arrière : ")
+                if confirm == "OUI":
+                    print(sub_save)
+                    # self.show_substitute(sub_save)
+
+                else:
+                    self.show_substitute(product)
+
+            except ValueError:
+                print("Vous n'avez pas entré un numéro. \n"
+                      "Veuillez réesayer dans 3...2...1... ")
+                time.sleep(3)
+                self.show_substitute(product)
 
     def come_back(self):
         """ This method switch to select product menu if user do wrong choice

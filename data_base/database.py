@@ -2,9 +2,7 @@
 
 # !/usr/bin/python3
 # -*- coding: Utf-8 -*
-import sys
-sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
-# import sys = Problème perso d'import à dégager par la suite.
+
 from data_base.api import Api
 import time
 import mysql.connector
@@ -32,18 +30,12 @@ class Database:
             database=DATABASE
         )
         self.cursor = self.connect.cursor()
-        print("connexion au serveur MYSQL...")
-        time.sleep(1)
-        print("connexion établie")
 
     def disconnecting(self):
         """Disconnect connection to MySQL Server"""
 
         self.connect.close()
         self.cursor.close()
-        print("Déconnexion du serveur MYSQL...")
-        time.sleep(1)
-        print("Déconnecté")
 
     def schema_gen(self):
         """Generate the database schema"""
@@ -56,7 +48,7 @@ class Database:
                 for instructions in sql:
                     # execute each instruction
                     self.cursor.execute(instructions)
-                    self.connect.commit() 
+                    self.connect.commit()
 
         except mysql.connector.errors.ProgrammingError as error:
             print("Erreur lors de la création de la DBB:", error)
@@ -84,7 +76,7 @@ class Database:
 
         self.cursor.execute("SELECT category_id, category_name FROM category")
         # catch the contain of the table category in the data base.
-        
+
         for cat_key, value in self.cursor.fetchall():
             api_request = Api()
             p = Products()
@@ -137,25 +129,24 @@ class Database:
                                 "url": p.url,
                                 "categories": p.categories,
                                 "category_id": p.category_id
-                            })
+                             })
                         # create a list of dictionaries of all the products
-                        
+
                 except TypeError as err:
                     print("Error: {}".format(err))
-                        
 
     def insert_product(self, product):
         """" Insert one product from API """
 
         query = """ INSERT INTO product (product_name_fr,
-        nutriscore_grade, brands, stores, url, 
-        categories, category_id) 
+        nutriscore_grade, brands, stores, url,
+        categories, category_id)
         VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s,
         %(stores)s, %(url)s, %(categories)s, %(category_id)s) """
 
         try:
             self.cursor.execute(query, product)
-            self.connect.commit() 
+            self.connect.commit()
 
         except KeyError as err:
             print("Error: une ou plusieures clés sont inexistentes"
@@ -167,37 +158,29 @@ class Database:
         for product in products:
             self.insert_product(product)
 
-    def get_subsitute(self, product):
-        """ This method will find out better products based on nutriscore """
+    def create_association_table(self):
+        """ This method will join product and substitution tables """
 
         self.connecting()
-
-        try:
-            self.cursor.execute(
-                "SELECT product_name_fr, brands, nutriscore_grade, stores,\
-                url, product_id \
-                FROM product \
-                WHERE nutriscore_grade<%(nutriscore_grade)s \
-                AND category_id=%(category_id)s",
-                {'nutriscore_grade': product[3], 'category_id': product[4]}
-            )
-            print("\n")
-            for line in self.cursor.fetchall():
-                print("Substitut potentiel à:", product[1], product[2], "\n",
-                      "Nom du produit:", line[0], "\n",
-                      "Marque:", line[1], "\n", "Nutriscore:", line[2], "\n",
-                      "Magasins:", line[3], "\n", "Url:", line[4], "\n",
-                      "identifiant produit:", line[5], "\n")
-
-        except TypeError as err:
-            print("Error: {}".format(err))
-
+        query = """ SELECT product.product_id, substitution.product_id
+        FROM product
+        INNER JOIN substitution
+        ON product.product_id = substitution.product_id """
+        self.cursor.execute(query)
+        res = self.cursor.fetchall()
+        for line in res:
+            print(line)
+        self.connect.commit()
         self.disconnecting()
 
     def all_gen(self):
-        """ Run all the necessary methods to generate local data base"""
+        """ Run all the necessary methods to generate local data base
+            This method is also use for reset the data base """
 
         self.connecting()
+        print("connexion au serveur MYSQL...")
+        time.sleep(1)
+        print("connexion établie")
         print("Création de la base de donnée...")
         self.schema_gen()
         print("Création des catégories de produits...")
@@ -210,7 +193,11 @@ class Database:
         self.insert_products(self.products_list)
         print("Import réussi avec succès !")
         self.disconnecting()
+        print("Déconnexion du serveur MYSQL...")
+        time.sleep(1)
+        print("Déconnecté")
 
 
 if __name__ == '__main__':
-    Database()
+    db = Database()
+    db.create_association_table()

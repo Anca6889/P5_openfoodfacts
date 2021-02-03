@@ -2,12 +2,9 @@
 
 # !/usr/bin/python3
 # -*- coding: Utf-8 -*
-import sys
-sys.path.append('C:/Users/guthj/OneDrive/Bureau/coding/P5_openfoodfacts')
-# import sys = Problème perso d'import à dégager par la suite.
+
 import requests
 from Config.config import PAGE_SIZE, URL
-
 
 
 class Api:

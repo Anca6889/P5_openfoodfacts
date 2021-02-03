@@ -20,8 +20,8 @@ CATEGORIES = [
                 ]
 
 MAIN_MENU = {
-                1: "Trouvez un substitut à un produit",
-                2: "Afficher les substituts enregistrés",
+                1: "Quel aliment souhaitez-vous remplacer ?",
+                2: "Retrouver mes aliments substitués",
                 3: "Réinitialiser la base de données",
                 4: "Quitter le programme"
                 }
