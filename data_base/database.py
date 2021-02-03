@@ -56,7 +56,7 @@ class Database:
                 for instructions in sql:
                     # execute each instruction
                     self.cursor.execute(instructions)
-                    self.connect.commit()  
+                    self.connect.commit() 
 
         except mysql.connector.errors.ProgrammingError as error:
             print("Erreur lors de la création de la DBB:", error)
@@ -84,57 +84,70 @@ class Database:
 
         self.cursor.execute("SELECT category_id, category_name FROM category")
         # catch the contain of the table category in the data base.
+        
         for cat_key, value in self.cursor.fetchall():
             api_request = Api()
             p = Products()
             # we use the categories names (value) to request the API.
             results = api_request.get_data_from_category(value)
             for line in results["products"]:
-                save = True
-                if line.get('product_name_fr') is None:
-                    save = False
-                else:
-                    p.product_name_fr = line.get('product_name_fr')
-                if line.get('nutriscore_grade') is None:
-                    save = False
-                else:
-                    p.nutriscore_grade = line.get('nutriscore_grade')
-                if line.get('brands') is None:
-                    save = False
-                else:
-                    p.brands = line.get('brands')
-                if line.get('stores') is None:
-                    save = False
-                else:
-                    p.stores = line.get('stores')
-                if line.get('url') is None:
-                    save = False
-                else:
-                    p.url = line.get('url')
-                if line.get('categories') is None:
-                    save = False
-                else:
-                    p.categories = line.get('categories')
-                #  all the below chain of "if" and "else" remove the
-                #  products with empty fields.
-                p.category_id = cat_key  # catch the category id number.
-                if save:
-                    self.products_list.append(
-                        {"product_name_fr": p.product_name_fr,
-                            "nutriscore_grade": p.nutriscore_grade,
-                            "brands": p.brands,
-                            "stores": p.stores,
-                            "url": p.url,
-                            "categories": p.categories,
-                            "category_id": p.category_id
-                         })
+                try:
+                    save = True
 
-                    # create a list of dictionaries of all the products
+                    if line.get('product_name_fr') is None:
+                        save = False
+                    else:
+                        p.product_name_fr = line.get('product_name_fr')
+
+                    if line.get('nutriscore_grade') is None:
+                        save = False
+                    else:
+                        p.nutriscore_grade = line.get('nutriscore_grade')
+
+                    if line.get('brands') is None:
+                        save = False
+                    else:
+                        p.brands = line.get('brands')
+
+                    if line.get('stores') is None:
+                        save = False
+                    else:
+                        p.stores = line.get('stores')
+
+                    if line.get('url') is None:
+                        save = False
+                    else:
+                        p.url = line.get('url')
+
+                    if line.get('categories') is None:
+                        save = False
+                    else:
+                        p.categories = line.get('categories')
+
+                    #  all the below chain of "if" and "else" remove the
+                    #  products with empty fields.
+                    p.category_id = cat_key  # catch the category id number.
+
+                    if save:
+                        self.products_list.append(
+                            {"product_name_fr": p.product_name_fr,
+                                "nutriscore_grade": p.nutriscore_grade,
+                                "brands": p.brands,
+                                "stores": p.stores,
+                                "url": p.url,
+                                "categories": p.categories,
+                                "category_id": p.category_id
+                            })
+                        # create a list of dictionaries of all the products
+                        
+                except TypeError as err:
+                    print("Error: {}".format(err))
+                        
 
     def insert_product(self, product):
         """" Insert one product from API """
 
-        query = """ INSERT INTO product (name_fr,
+        query = """ INSERT INTO product (product_name_fr,
         nutriscore_grade, brands, stores, url, 
         categories, category_id) 
         VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s,
@@ -158,22 +171,28 @@ class Database:
         """ This method will find out better products based on nutriscore """
 
         self.connecting()
-        sub_list = []
-        query = """ SELECT product.product_id, product.category_id,
-        product.nutriscore_grade FROM product
-        INNER JOIN substitution
-        ON product.product_id = subsitution.product_id
-        WHERE product.nutriscore_grade < '{product[3]}'
-        AND product.category_id = '{product[4]}' """
 
         try:
-            self.cursor.execute(query)
-            for line in self.cursor:
-                sub_list.append(line)
-                print(sub_list)
+            self.cursor.execute(
+                "SELECT product_name_fr, brands, nutriscore_grade, stores,\
+                url, product_id \
+                FROM product \
+                WHERE nutriscore_grade<%(nutriscore_grade)s \
+                AND category_id=%(category_id)s",
+                {'nutriscore_grade': product[3], 'category_id': product[4]}
+            )
+            print("\n")
+            for line in self.cursor.fetchall():
+                print("Substitut potentiel à:", product[1], product[2], "\n",
+                      "Nom du produit:", line[0], "\n",
+                      "Marque:", line[1], "\n", "Nutriscore:", line[2], "\n",
+                      "Magasins:", line[3], "\n", "Url:", line[4], "\n",
+                      "identifiant produit:", line[5], "\n")
 
         except TypeError as err:
             print("Error: {}".format(err))
+
+        self.disconnecting()
 
     def all_gen(self):
         """ Run all the necessary methods to generate local data base"""

@@ -8,9 +8,14 @@ URL = "https://fr.openfoodfacts.org/cgi/search.pl"
 
 CATEGORIES = [
                 "pates-a-tartiner",
-                "boissons",
+                "petit-dejeuners",
+                "sodas",
+                "snacks",
+                "snacks-sucres",
+                "charcuteries",
+                "fromages",
                 "condiments",
-                "biscuits-et-gateaux",
+                "surgeles",
                 "pizzas"
                 ]
 
@@ -21,12 +26,14 @@ MAIN_MENU = {
                 4: "Quitter le programme"
                 }
 # Number of categories
-CAT_NUMBER = 5
+CAT_NUMBER = len(CATEGORIES)
 # Maximal number of product by categorie
-PAGE_SIZE = 50
+PAGE_SIZE = 100
 
 # Mysql server configuration:
 HOST = "localhost"
 USER = "root"
 PASSWORD = "mu122238"
 DATABASE = "db_p5"
+
+# All texts / messages of the app (IN FRENCH)

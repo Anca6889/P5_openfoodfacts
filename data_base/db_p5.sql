@@ -52,7 +52,7 @@ CREATE TABLE `product` (
   `category_id` int NOT NULL,
   `categories` varchar(2000) DEFAULT NULL,
   `brands` varchar(200) DEFAULT NULL,
-  `name_fr` varchar(200) DEFAULT NULL,
+  `product_name_fr` varchar(200) DEFAULT NULL,
   `nutriscore_grade` char(1) DEFAULT NULL,
   `stores` varchar(1000) DEFAULT NULL,
   `url` varchar(2000) DEFAULT NULL,

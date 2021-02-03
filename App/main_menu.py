@@ -32,21 +32,21 @@ class MainMenu:
     def get_choice(self):
         """ Record the user choice """
 
-        self.choice = int(input(
+        self.choice = input(
             "\nEntrez le chiffre correspondant à votre choix puis"
-            " pressez sur ENTER : "))
-
-        if self.choice == 1:
+            " pressez sur ENTER : ")
+        
+        if self.choice == "1":
             SelectProducts()
 
-        elif self.choice == 3:
+        elif self.choice == "3":
             Reset()
 
         else:
             print(
                 "Le choix que vous avez entré n'existe pas \n"
                 "veuillez effectuer un choix valide dans 3...2...1... \n")
-            time.sleep(5)    
+            time.sleep(3)    
             self.display()
 
 
