@@ -6,6 +6,7 @@
 from Config.config import MAIN_MENU
 from App.select_products import SelectProducts
 from App.reset_db import Reset
+from App.saved_substitutes import ShowSavedSub
 import time
 
 
@@ -33,6 +34,9 @@ class MainMenu:
             " pressez sur ENTER : ")
         if self.choice == "1":
             SelectProducts()
+
+        if self.choice == "2":
+            ShowSavedSub()
 
         elif self.choice == "3":
             Reset()

@@ -162,7 +162,7 @@ class SelectProducts:
 
     def record_substitute(self, prod, sub):
         """ allow the user to record substitute in the data base """
-        
+
         choice = input(
                         "Voulez vous enregistrer votre substitut ? \n"
                         "Entrez OUI pour confirmer sinon entrez"
@@ -173,7 +173,7 @@ class SelectProducts:
 
                 query = """ INSERT INTO substitution (product_id, substitute_id)
                 VALUES (%s, %s) """
-                
+
                 self.db.cursor.execute(query, (prod, sub))
                 self.db.connect.commit()
                 print(self.db.cursor.rowcount, "substitut inséré(s) en BDD.")
