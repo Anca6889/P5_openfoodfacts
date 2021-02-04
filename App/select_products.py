@@ -122,17 +122,21 @@ class SelectProducts:
                 for sub in sub_list:
                     if sub_choice == sub[5]:
                         sub_exist = True
-                        print("\n Vous avez sélectionné: \n\n",
+                        print(
+                                "\n Vous avez sélectionné: \n\n",
                                 "Nom du produit:", sub[0], "\n",
                                 "Marque:", sub[1], "\n", "Nutriscore:",
                                 sub[2], "\n",
                                 "Magasins:", sub[3], "\n", "Url:",
                                 sub[4], "\n",
-                                "identifiant produit:", sub[5], "\n")
+                                "identifiant produit:", sub[5], "\n"
+                                )
                         sub_save = sub
                 if sub_exist is False:
-                    print("Le numéro entré n'est pas présent dans la liste"
-                            " des produits")
+                    print(
+                            "Le numéro entré n'est pas présent dans la liste"
+                            " des produits"
+                            )
 
             print("Confirmer vous ce choix ?")
             confirm = input("Entrez OUI pour confirmer sinon entrez"
@@ -145,8 +149,10 @@ class SelectProducts:
                 self.show_substitute(product)
 
         except ValueError:
-            print("Vous n'avez pas entré un numéro. \n"
-                    "Veuillez réesayer dans 3...2...1... ")
+            print(
+                    "Vous n'avez pas entré un numéro. \n"
+                    "Veuillez réesayer dans 3...2...1... "
+                    )
             time.sleep(3)
             self.show_substitute(product)
 
