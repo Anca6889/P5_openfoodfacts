@@ -1,14 +1,16 @@
-""" This module will generate the category display """
+""" This module will generate the display and record the choices of users """
 
 # !/usr/bin/python3
 # -*- coding: Utf-8 -*
 
 from data_base.database import Database
+import mysql.connector
 import time
 
 
 class SelectProducts:
-    """ This class will display the category choice """
+    """ This class will display the products and the choices of users
+        All the below methods are working in chain """
 
     def __init__(self):
 
@@ -16,6 +18,7 @@ class SelectProducts:
         self.show_categories()
 
     def show_categories(self):
+        """ This method show the different categories and alow selection """
 
         self.db.connecting()
         print("\n veuillez choisir une catégorie de produit \n")
@@ -40,6 +43,7 @@ class SelectProducts:
             self.come_back()
 
     def show_products(self, cat_id):
+        """ This method show the different products and alow selection """
 
         product_list = []
         self.db.cursor.execute(
@@ -90,6 +94,7 @@ class SelectProducts:
             self.show_products(cat_id)
 
     def show_substitute(self, product):
+        """ This method show the different substitutes and alow selection """
 
         sub_list = []
         self.db.cursor.execute(
@@ -142,8 +147,7 @@ class SelectProducts:
             confirm = input("Entrez OUI pour confirmer sinon entrez"
                             " n'importe quoi pour revenir en arrière : ")
             if confirm == "OUI":
-                print(sub_save)
-                # self.show_substitute(sub_save)
+                self.record_substitute(product[0], sub_save[5])
 
             else:
                 self.show_substitute(product)
@@ -155,6 +159,41 @@ class SelectProducts:
                     )
             time.sleep(3)
             self.show_substitute(product)
+
+    def record_substitute(self, prod, sub):
+        """ allow the user to record substitute in the data base """
+        
+        choice = input(
+                        "Voulez vous enregistrer votre substitut ? \n"
+                        "Entrez OUI pour confirmer sinon entrez"
+                        " n'importe quoi pour passer: "
+                        )
+        try:
+            if choice == "OUI":
+
+                query = """ INSERT INTO substitution (product_id, substitute_id)
+                VALUES (%s, %s) """
+                
+                self.db.cursor.execute(query, (prod, sub))
+                self.db.connect.commit()
+                print(self.db.cursor.rowcount, "substitut inséré(s) en BDD.")
+
+            else:
+                print("le substitut n'a pas été enregistré.")
+        except mysql.connector.errors.IntegrityError:
+            print("le substitut est déjà présent en base de donnée")
+
+        one_more = input(
+                        "Voulez vous rechercher un autre produit ? \n"
+                        "Entrez OUI pour confirmer sinon entrez"
+                        " n'importe quoi pour quitter le programme : "
+                        )
+
+        if one_more == "OUI":
+            self.show_categories()
+
+        else:
+            quit()
 
     def come_back(self):
         """ This method switch to select product menu if user do wrong choice
