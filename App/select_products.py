@@ -111,44 +111,44 @@ class SelectProducts:
                     )
             sub_list.append(line)
 
-            try:
+        try:
 
-                sub_exist = False
-                while sub_exist is False:
-                    sub_choice = int(input(
-                        "\n Entrer le numéro (identifiant produit)"
-                        " correspondant au produit"
-                        " que vous voulez remplacer: "))
-                    for sub in sub_list:
-                        if sub_choice == sub[5]:
-                            sub_exist = True
-                            print("\n Vous avez sélectionné: \n\n",
-                                  "Nom du produit:", sub[0], "\n",
-                                  "Marque:", sub[1], "\n", "Nutriscore:",
-                                  sub[2], "\n",
-                                  "Magasins:", sub[3], "\n", "Url:",
-                                  sub[4], "\n",
-                                  "identifiant produit:", sub[5], "\n")
-                            sub_save = sub
-                    if sub_exist is False:
-                        print("Le numéro entré n'est pas présent dans la liste"
-                              " des produits")
+            sub_exist = False
+            while sub_exist is False:
+                sub_choice = int(input(
+                    "\n Entrer le numéro (identifiant produit)"
+                    " correspondant au produit"
+                    " que vous voulez remplacer: "))
+                for sub in sub_list:
+                    if sub_choice == sub[5]:
+                        sub_exist = True
+                        print("\n Vous avez sélectionné: \n\n",
+                                "Nom du produit:", sub[0], "\n",
+                                "Marque:", sub[1], "\n", "Nutriscore:",
+                                sub[2], "\n",
+                                "Magasins:", sub[3], "\n", "Url:",
+                                sub[4], "\n",
+                                "identifiant produit:", sub[5], "\n")
+                        sub_save = sub
+                if sub_exist is False:
+                    print("Le numéro entré n'est pas présent dans la liste"
+                            " des produits")
 
-                print("Confirmer vous ce choix ?")
-                confirm = input("Entrez OUI pour confirmer sinon entrez"
-                                " n'importe quoi pour revenir en arrière : ")
-                if confirm == "OUI":
-                    print(sub_save)
-                    # self.show_substitute(sub_save)
+            print("Confirmer vous ce choix ?")
+            confirm = input("Entrez OUI pour confirmer sinon entrez"
+                            " n'importe quoi pour revenir en arrière : ")
+            if confirm == "OUI":
+                print(sub_save)
+                # self.show_substitute(sub_save)
 
-                else:
-                    self.show_substitute(product)
-
-            except ValueError:
-                print("Vous n'avez pas entré un numéro. \n"
-                      "Veuillez réesayer dans 3...2...1... ")
-                time.sleep(3)
+            else:
                 self.show_substitute(product)
+
+        except ValueError:
+            print("Vous n'avez pas entré un numéro. \n"
+                    "Veuillez réesayer dans 3...2...1... ")
+            time.sleep(3)
+            self.show_substitute(product)
 
     def come_back(self):
         """ This method switch to select product menu if user do wrong choice
