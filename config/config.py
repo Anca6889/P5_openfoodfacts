@@ -3,9 +3,12 @@
 # !/usr/bin/python3
 # -*- coding: Utf-8 -*
 
-# selected categories for the local data base
+# Link and fields for the payload of the API request
 URL = "https://fr.openfoodfacts.org/cgi/search.pl"
 
+FIELDS = "categories,brands,product_name_fr,stores,nutriscore_grade,url"
+
+# selected categories for the local data base
 CATEGORIES = [
                 "pates-a-tartiner",
                 "petit-dejeuners",

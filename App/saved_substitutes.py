@@ -15,6 +15,9 @@ class ShowSavedSub:
         self.get_data_sub()
 
     def get_data_sub(self):
+        """ This method will associate and join the substitution table
+            with the product table and will lauch the next print method
+            for each product recorded in the substitution table """
 
         self.db.connecting()
 
@@ -30,8 +33,10 @@ class ShowSavedSub:
             prod = line[1]
             sub = line[2]
             self.print_sub(prod, sub)
+        input("Appuyer sur ENTER pour revenir au menu principal")
 
     def print_sub(self, prod, sub):
+        """ print the original product VS substitute """
 
         self.db.cursor.execute(
             "SELECT product_id, product_name_fr, brands, \
@@ -39,10 +44,10 @@ class ShowSavedSub:
             FROM product \
             WHERE product_id=%(product_id)s", {'product_id': prod})
 
-        prod_list = []
+        prod_info = []
         res_prod = self.db.cursor.fetchall()
         for line in res_prod:
-            prod_list.append(line)
+            prod_info.append(line)
 
         self.db.cursor.execute(
             "SELECT product_id, product_name_fr, brands, \
@@ -50,13 +55,13 @@ class ShowSavedSub:
             FROM product \
             WHERE product_id=%(product_id)s", {'product_id': sub})
 
-        sub_list = []
+        sub_info = []
         res_sub = self.db.cursor.fetchall()
         for line in res_sub:
-            sub_list.append(line)
+            sub_info.append(line)
 
-        for prod in prod_list:
-            for sub in sub_list:
+        for prod in prod_info:
+            for sub in sub_info:
                 print(
                     "                  ORIGINE          VS         SUBSTITUT\n"
                     "_______________________________________________________\n"
@@ -67,7 +72,7 @@ class ShowSavedSub:
                     "magasin(s):     ", prod[4], "      VS      ", sub[4], "\n"
                     "URL:            ", prod[5], "      VS      ", sub[5], "\n"
                     "_______________________________________________________\n"
-                )
+                        )
 
 
 if __name__ == '__main__':

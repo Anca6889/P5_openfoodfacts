@@ -186,14 +186,14 @@ class SelectProducts:
         one_more = input(
                         "Voulez vous rechercher un autre produit ? \n"
                         "Entrez OUI pour confirmer sinon entrez"
-                        " n'importe quoi pour quitter le programme : "
+                        " n'importe quoi pour revenir au menu principal : "
                         )
 
         if one_more == "OUI":
             self.show_categories()
 
         else:
-            quit()
+            pass
 
     def come_back(self):
         """ This method switch to select product menu if user do wrong choice

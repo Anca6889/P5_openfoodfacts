@@ -34,9 +34,11 @@ class MainMenu:
             " pressez sur ENTER : ")
         if self.choice == "1":
             SelectProducts()
+            self.display()
 
-        if self.choice == "2":
+        elif self.choice == "2":
             ShowSavedSub()
+            self.display()
 
         elif self.choice == "3":
             Reset()

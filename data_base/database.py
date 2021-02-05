@@ -54,7 +54,7 @@ class Database:
             print("Erreur lors de la création de la DBB:", error)
 
     def insert_category(self, cat_name):
-        """Insert one category from CONSTANT"""
+        """Insert one category from config file"""
 
         query = "INSERT INTO category (category_name) VALUES ('%s')" % cat_name
 
@@ -66,7 +66,7 @@ class Database:
             print("Error: {}".format(err))
 
     def insert_categories(self, categories):
-        """" Insert all categories from CONSTANT """
+        """" Insert all categories from config file """
 
         for category in categories:
             self.insert_category(category)
@@ -158,24 +158,10 @@ class Database:
         for product in products:
             self.insert_product(product)
 
-    def create_association_table(self):
-        """ This method will join product and substitution tables """
-
-        self.connecting()
-        query = """ SELECT product.product_id, substitution.product_id
-        FROM product
-        INNER JOIN substitution
-        ON product.product_id = substitution.product_id """
-        self.cursor.execute(query)
-        res = self.cursor.fetchall()
-        for line in res:
-            print(line)
-        self.connect.commit()
-        self.disconnecting()
-
     def all_gen(self):
-        """ Run all the necessary methods to generate local data base
-            This method is also use for reset the data base """
+        """ Run all the necessary methods to generate local data base and
+            download all the products
+            This method is also use for RESET the data base """
 
         self.connecting()
         print("connexion au serveur MYSQL...")

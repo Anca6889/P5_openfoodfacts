@@ -4,11 +4,10 @@
 # -*- coding: Utf-8 -*
 
 import requests
-from Config.config import PAGE_SIZE, URL
+from Config.config import PAGE_SIZE, URL, FIELDS
 
 
 class Api:
-
     """ This class will import data from the API and dispatch it into the
         local data base """
 
@@ -23,7 +22,7 @@ class Api:
             "sort_by": "unique_scans_n",
             "page_size": PAGE_SIZE,
             "json": 1,
-            "fields": "categories,brands,product_name_fr,stores,nutriscore_grade,url"
+            "fields": FIELDS
         }
         self.products = []
 
