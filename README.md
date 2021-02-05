@@ -17,5 +17,26 @@ To run OFF substitutes you need to install:
 Python 3.8 : https://www.python.org/downloads/  
 Mysql https://www.mysql.com/fr/downloads/  
   
-create Virtual envirement using command (Windows Powershell):  
-``py -m venv venv``
+create virtual envirement using command (Windows Powershell):  
+``py -m venv venv``  
+Activate the virtual environment:  
+``py -m venv\Scripts\Activate.ps1 ``  
+Install the necessary modules:  
+``pip install -r requirements.txt ``  
+(to deactivate venv use :)
+``deactivate``  
+  
+Change the settings of Mysql server parameters with your own ones in config 
+file:  
+Mysql server configuration:
+HOST = "localhost"
+USER = "root"
+PASSWORD = ""
+DATABASE = "db_p5" (DO NOT CHANGE THIS PARAMETER)   
+
+## Run the App:
+
+Run the file main.py  
+NOTE: FOR YOUR 1st USE:  
+At the Main menu, run option number 3 (reset database) to create the database
+on your local machine.
