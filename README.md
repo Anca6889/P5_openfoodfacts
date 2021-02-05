@@ -25,6 +25,9 @@ Install the necessary modules:
 ``pip install -r requirements.txt ``  
 (to deactivate venv use :)  
 ``deactivate``  
+
+For other commands (OS or terminal) please check:  
+https://docs.python.org/fr/3/library/venv.html  
   
 Change the settings of Mysql server parameters with your own ones in config 
 file:  
