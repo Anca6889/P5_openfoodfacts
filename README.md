@@ -28,11 +28,15 @@ Install the necessary modules:
   
 Change the settings of Mysql server parameters with your own ones in config 
 file:  
-Mysql server configuration:
+
+```python 
+#Mysql server configuration:
 HOST = "localhost"
 USER = "root"
 PASSWORD = ""
-DATABASE = "db_p5" (DO NOT CHANGE THIS PARAMETER)   
+DATABASE = "db_p5"  # (DO NOT CHANGE THIS PARAMETER)
+```
+
 
 ## Run the App:
 
