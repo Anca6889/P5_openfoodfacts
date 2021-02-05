@@ -17,6 +17,8 @@ To run OFF substitutes you need to install:
 Python 3.8 : https://www.python.org/downloads/  
 Mysql https://www.mysql.com/fr/downloads/  
   
+__YOU NEED TO HAVE A LOCAL DATABASE NAMED "db_p5" on your local Mysql server.__  
+  
 create virtual envirement using command (Windows Powershell):  
 ``py -m venv venv``  
 Activate the virtual environment:  
