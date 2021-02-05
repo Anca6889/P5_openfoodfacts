@@ -23,7 +23,7 @@ Activate the virtual environment:
 ``py -m venv\Scripts\Activate.ps1 ``  
 Install the necessary modules:  
 ``pip install -r requirements.txt ``  
-(to deactivate venv use :)
+(to deactivate venv use :)  
 ``deactivate``  
   
 Change the settings of Mysql server parameters with your own ones in config 
@@ -37,6 +37,6 @@ DATABASE = "db_p5" (DO NOT CHANGE THIS PARAMETER)
 ## Run the App:
 
 Run the file main.py  
-NOTE: FOR YOUR 1st USE:  
+NOTE: IF IT IS FIRST TIME YOU USE THE APP:  
 At the Main menu, run option number 3 (reset database) to create the database
 on your local machine.
