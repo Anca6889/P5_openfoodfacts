@@ -18,4 +18,4 @@ Python 3.8 : https://www.python.org/downloads/
 Mysql https://www.mysql.com/fr/downloads/  
   
 create Virtual envirement using command (Windows Powershell):  
->py -m venv venv  
+``py -m venv venv``
