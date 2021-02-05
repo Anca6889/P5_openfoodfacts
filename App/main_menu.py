@@ -21,7 +21,11 @@ class MainMenu:
     def display(self):
         """ Display the main menu """
 
-        print('\n Bienvenue dans OFF substitutes \n')
+        print(
+            "\n Bienvenue dans OFF substitutes \n"
+            "\n (NOTE: pour une première utilisation: sélectionner 3"
+            " pour créer la base de données) \n"
+                )
         for key, val in self.option.items():
             print(key, val, '\n')
         self.get_choice()
