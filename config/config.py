@@ -38,5 +38,3 @@ HOST = "localhost"
 USER = "root"
 PASSWORD = "mu122238"
 DATABASE = "db_p5"  # (DO NOT CHANGE THIS PARAMETER)
-
-# All texts / messages of the app (IN FRENCH)
