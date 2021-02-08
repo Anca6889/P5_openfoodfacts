@@ -33,6 +33,8 @@ class ShowSavedSub:
             prod = line[1]
             sub = line[2]
             self.print_sub(prod, sub)
+        if len(res) == 0:
+            print("Il n'y a pas de produits enregistrés actuellement")
         input("Appuyer sur ENTER pour revenir au menu principal")
 
     def print_sub(self, prod, sub):
