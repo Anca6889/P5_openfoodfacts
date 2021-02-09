@@ -108,12 +108,12 @@ class SelectProducts:
         print("\n")
         if product[3] == "a":
             print(
-                    "Vous avez selectionner un produit avec nutriscore A ! \n"
+                    "Vous avez selectionné un produit avec nutriscore A ! \n"
                     " Vous avez donc déjà un exellent produit. \n"
                     " Veuillez choisir un nouveau produit dans 3...2...1...")
             time.sleep(3)
             self.show_categories()
-            
+
         for line in self.db.cursor.fetchall():
             print(
                     "Substitut potentiel à:", product[1], product[2], "\n",
