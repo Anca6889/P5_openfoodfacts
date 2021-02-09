@@ -106,15 +106,19 @@ class SelectProducts:
               {'nutriscore_grade': product[3], 'category_id': product[4]}
               )
         print("\n")
-        if product[3] == "a":
+
+        res = self.db.cursor.fetchall()
+        if len(res) == 0:
             print(
-                    "Vous avez selectionné un produit avec nutriscore A ! \n"
-                    " Vous avez donc déjà un exellent produit. \n"
-                    " Veuillez choisir un nouveau produit dans 3...2...1...")
+                "Vous avez sélectionné un produit avec un bon nutriscore! \n"
+                " Il n'y a pas de meilleurs produit pour l'instant. \n"
+                " Veuillez choisir un nouveau produit dans 3...2...1..."
+            )
             time.sleep(3)
             self.show_categories()
 
-        for line in self.db.cursor.fetchall():
+        
+        for line in res:
             print(
                     "Substitut potentiel à:", product[1], product[2], "\n",
                     "Nom du produit:", line[0], "\n",
