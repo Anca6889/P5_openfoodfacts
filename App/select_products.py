@@ -108,25 +108,26 @@ class SelectProducts:
         print("\n")
 
         res = self.db.cursor.fetchall()
-        if len(res) == 0:
+        if not res:
             print(
                 "Vous avez sélectionné un produit avec un bon nutriscore! \n"
                 " Il n'y a pas de meilleurs produit pour l'instant. \n"
-                " Veuillez choisir un nouveau produit dans 3...2...1..."
+                " Veuillez choisir un nouveau produit"
             )
             time.sleep(3)
+            input("\n Appuyer sur ENTER pour continuer \n")
             self.show_categories()
 
-        
-        for line in res:
-            print(
-                    "Substitut potentiel à:", product[1], product[2], "\n",
-                    "Nom du produit:", line[0], "\n",
-                    "Marque:", line[1], "\n", "Nutriscore:", line[2], "\n",
-                    "Magasins:", line[3], "\n", "Url:", line[4], "\n",
-                    "identifiant produit:", line[5], "\n"
-                    )
-            sub_list.append(line)
+        else:
+            for line in res:
+                print(
+                        "Substitut potentiel à:", product[1], product[2], "\n",
+                        "Nom du produit:", line[0], "\n",
+                        "Marque:", line[1], "\n", "Nutriscore:", line[2], "\n",
+                        "Magasins:", line[3], "\n", "Url:", line[4], "\n",
+                        "identifiant produit:", line[5], "\n"
+                        )
+                sub_list.append(line)
 
         try:
 
