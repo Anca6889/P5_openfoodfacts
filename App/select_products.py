@@ -216,7 +216,3 @@ class SelectProducts:
               "selection de produit dans 3...2...1...")
         time.sleep(3)
         self.show_categories()
-
-
-if __name__ == '__main__':
-    SelectProducts()

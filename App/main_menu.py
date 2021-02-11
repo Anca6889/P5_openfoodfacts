@@ -59,7 +59,3 @@ class MainMenu:
                 "veuillez effectuer un choix valide dans 3...2...1... \n")
             time.sleep(3)
             self.display()
-
-
-if __name__ == '__main__':
-    MainMenu()

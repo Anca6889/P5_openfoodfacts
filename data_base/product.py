@@ -18,7 +18,3 @@ class Products:
         self.stores = ""
         self.url = ""
         self.categories = ""
-
-
-if __name__ == '__main__':
-    Products()

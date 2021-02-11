@@ -182,8 +182,3 @@ class Database:
         print("Déconnexion du serveur MYSQL...")
         time.sleep(1)
         print("Déconnecté")
-
-
-if __name__ == '__main__':
-    db = Database()
-    db.create_association_table()

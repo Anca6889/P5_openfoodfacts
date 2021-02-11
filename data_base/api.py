@@ -45,7 +45,3 @@ class Api:
 
         except ValueError as err:
             print("Error: {}".format(err))
-
-
-if __name__ == '__main__':
-    data = Api()

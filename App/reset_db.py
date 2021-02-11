@@ -19,7 +19,3 @@ class Reset:
 
         print("Régénération de la base de données...")
         self.db.all_gen()
-
-
-if __name__ == '__main__':
-    Reset()

@@ -75,7 +75,3 @@ class ShowSavedSub:
                     "URL:            ", prod[5], "      VS      ", sub[5], "\n"
                     "_______________________________________________________\n"
                         )
-
-
-if __name__ == '__main__':
-    ShowSavedSub()
