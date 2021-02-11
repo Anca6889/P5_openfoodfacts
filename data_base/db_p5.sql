@@ -50,13 +50,13 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `product_id` int NOT NULL AUTO_INCREMENT,
   `category_id` int NOT NULL,
-  `categories` varchar(2000) DEFAULT NULL,
   `brands` varchar(200) DEFAULT NULL,
   `product_name_fr` varchar(200) DEFAULT NULL,
   `nutriscore_grade` char(1) DEFAULT NULL,
   `stores` varchar(1000) DEFAULT NULL,
   `url` varchar(2000) DEFAULT NULL,
-  PRIMARY KEY (`product_id`)
+  FOREIGN KEY (category_id) REFERENCES category(category_id),
+  PRIMARY KEY (product_id, category_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

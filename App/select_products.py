@@ -58,22 +58,21 @@ class SelectProducts:
                   "    Catégorie:", line[4], "\n")
             product_list.append(line)
 
+        prod_exist = False
         try:
-
-            prod_exist = False
             while prod_exist is False:
                 prod_choice = int(input(
                     "\n Entrer le numéro correspondant au produit"
                     " que vous voulez remplacer: "))
                 for product in product_list:
                     if prod_choice == product[0]:
-                        prod_exist = True
                         print("\n Vous avez sélectionné: \n\n", product[0],
                               " Nom du produit:", product[1], "\n",
                               "   Marque:", product[2], "\n",
                               "   Nutriscore:", product[3], "\n",
                               "    Catégorie:", product[4], "\n")
                         prod_save = product
+                        prod_exist = True
                 if prod_exist is False:
                     print("Le numéro entré n'est pas présent dans la liste"
                           " des produits")
@@ -89,8 +88,9 @@ class SelectProducts:
 
         except ValueError:
             print("Vous n'avez pas entré un numéro. \n"
-                  "Veuillez réesayer dans 3...2...1... ")
+                  "Veuillez réesayer.")
             time.sleep(3)
+            input("\n Appuyer sur ENTER pour continuer \n")
             self.show_products(cat_id)
 
     def show_substitute(self, product):
@@ -116,7 +116,8 @@ class SelectProducts:
             )
             time.sleep(3)
             input("\n Appuyer sur ENTER pour continuer \n")
-            self.show_categories()
+            self.db.disconnecting()
+            self.__init__()
 
         else:
             for line in res:
@@ -130,7 +131,6 @@ class SelectProducts:
                 sub_list.append(line)
 
         try:
-
             sub_exist = False
             while sub_exist is False:
                 sub_choice = int(input(
@@ -139,7 +139,6 @@ class SelectProducts:
                     " que vous voulez remplacer: "))
                 for sub in sub_list:
                     if sub_choice == sub[5]:
-                        sub_exist = True
                         print(
                                 "\n Vous avez sélectionné: \n\n",
                                 "Nom du produit:", sub[0], "\n",
@@ -150,6 +149,7 @@ class SelectProducts:
                                 "identifiant produit:", sub[5], "\n"
                                 )
                         sub_save = sub
+                        sub_exist = True
                 if sub_exist is False:
                     print(
                             "Le numéro entré n'est pas présent dans la liste"
@@ -168,8 +168,9 @@ class SelectProducts:
         except ValueError:
             print(
                     "Vous n'avez pas entré un numéro. \n"
-                    "Veuillez réesayer dans 3...2...1... "
+                    "Veuillez réesayer."
                     )
+            input("\n Appuyer sur ENTER pour continuer \n")
             time.sleep(3)
             self.show_substitute(product)
 
@@ -189,7 +190,7 @@ class SelectProducts:
 
                 self.db.cursor.execute(query, (prod, sub))
                 self.db.connect.commit()
-                print(self.db.cursor.rowcount, "substitut inséré(s) en BDD.")
+                print(self.db.cursor.rowcount, "substitut inséré en BDD.")
 
             else:
                 print("le substitut n'a pas été enregistré.")
@@ -203,9 +204,11 @@ class SelectProducts:
                         )
 
         if one_more == "OUI":
+            self.db.disconnecting()
             self.show_categories()
 
         else:
+            self.db.disconnecting()
             pass
 
     def come_back(self):
@@ -213,6 +216,8 @@ class SelectProducts:
          """
 
         print("Choix NON VALIDE, vous allez être redirigé vers la "
-              "selection de produit dans 3...2...1...")
+              "selection de produit.")
         time.sleep(3)
+        input("\n Appuyer sur ENTER pour continuer \n")
+        self.db.disconnecting()
         self.show_categories()

@@ -6,7 +6,7 @@
 from data_base.api import Api
 import time
 import mysql.connector
-from data_base.product import Products
+from data_base.product import Product
 from Config.config import HOST, USER, PASSWORD, DATABASE, CATEGORIES, \
     PAGE_SIZE, CAT_NUMBER
 
@@ -79,7 +79,7 @@ class Database:
 
         for cat_key, value in self.cursor.fetchall():
             api_request = Api()
-            p = Products()
+            p = Product()
             # we use the categories names (value) to request the API.
             results = api_request.get_data_from_category(value)
             for line in results["products"]:
@@ -110,12 +110,6 @@ class Database:
                         save = False
                     else:
                         p.url = line.get('url')
-
-                    if line.get('categories') is None:
-                        save = False
-                    else:
-                        p.categories = line.get('categories')
-
                     #  all the below chain of "if" and "else" remove the
                     #  products with empty fields.
                     p.category_id = cat_key  # catch the category id number.
@@ -127,11 +121,9 @@ class Database:
                                 "brands": p.brands,
                                 "stores": p.stores,
                                 "url": p.url,
-                                "categories": p.categories,
                                 "category_id": p.category_id
                              })
-                        # create a list of dictionaries of all the products
-
+                        # create a list of dictionaries of all the productsks
                 except TypeError as err:
                     print("Error: {}".format(err))
 
@@ -139,10 +131,9 @@ class Database:
         """" Insert one product from API """
 
         query = """ INSERT INTO product (product_name_fr,
-        nutriscore_grade, brands, stores, url,
-        categories, category_id)
+        nutriscore_grade, brands, stores, url, category_id)
         VALUES (%(product_name_fr)s, %(nutriscore_grade)s, %(brands)s,
-        %(stores)s, %(url)s, %(categories)s, %(category_id)s) """
+        %(stores)s, %(url)s, %(category_id)s) """
 
         try:
             self.cursor.execute(query, product)

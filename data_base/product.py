@@ -5,7 +5,7 @@ usable object """
 # -*- coding: Utf-8 -*
 
 
-class Products:
+class Product:
     """ this class create an usable object for insert the products in the
     database """
 
@@ -17,4 +17,3 @@ class Products:
         self.nutriscore_grade = ""
         self.stores = ""
         self.url = ""
-        self.categories = ""
