@@ -13,7 +13,9 @@ them in a local Mysql database.
 You can select products, get substitutes and even save them in local database.  
 
 ## Requirements: 
-
+  
+__AN INTERNET CONNECTION IS NECESSARY TO RUN THIS APP__  
+  
 To run OFF substitutes you need to install: 
   
 Python 3.8 : https://www.python.org/downloads/  

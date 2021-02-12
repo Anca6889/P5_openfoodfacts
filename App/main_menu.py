@@ -57,6 +57,6 @@ class MainMenu:
             print(
                 "Le choix que vous avez entré n'existe pas \n"
                 "veuillez effectuer un choix valide.\n")
-            time.sleep(3)
+            time.sleep(2)
             input("\n Appuyer sur ENTER pour continuer \n")
             self.display()

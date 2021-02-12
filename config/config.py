@@ -41,5 +41,5 @@ PAGE_SIZE = 100
 # Mysql server configuration:
 HOST = "localhost"
 USER = "root"
-PASSWORD = "mu122238"
+PASSWORD = ""
 DATABASE = "db_p5"  # (DO NOT CHANGE THIS PARAMETER)
